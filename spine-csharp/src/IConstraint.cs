@@ -27,13 +27,13 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System;
-
 namespace Spine {
-	/// <summary>Attachment that has a polygon for bounds checking.</summary>
-	public class BoundingBoxAttachment : VertexAttachment {
-		public BoundingBoxAttachment (string name)
-			: base(name) {
-		}
+	
+	/// <summary>The interface for all constraints.</summary>
+	public interface IConstraint : IUpdatable {
+		/// <summary>The ordinal for the order a skeleton's constraints will be applied.</summary>
+		int Order { get; }
+
 	}
+
 }
