@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 
 namespace BinToJson
 {
@@ -21,8 +22,8 @@ namespace BinToJson
             //}
             //string fileName = args[0];
 
-            string skelFile = @"";
-            string atlasFile = @"";
+            string skelFile = @"test.skel";
+            string atlasFile = @"test.atlas";
 
             SkeletonData skeletonData;
 
@@ -62,7 +63,58 @@ namespace BinToJson
             List<AtlasPage> pages = new List<AtlasPage>();
             List<AtlasRegion> regions = new List<AtlasRegion>();
             // TODO 解析atlas文件
+            try
+            {
+                string[] lines = File.ReadAllLines(atlasFile);
+                
+                foreach (string line in lines)
+                {
+                    if(string.IsNullOrEmpty(line.Trim())) continue;
+                    Console.WriteLine(line); // 打印每一行
+                    if (line.StartsWith("SpineAG"))
+                    {
+                        pages.Add(new AtlasPage());
+                        pages.Last().name = line;
+                    }
+                    if (line.StartsWith("format:"))
+                    {
+                        Format? format = FindEnumByName<Format>(line);
+                        pages.Last().format = (Format)format;
+                    }
+                    if (line.StartsWith("filter:"))
+                    {
+                        TextureFilter? filter = FindEnumByName<TextureFilter>(line);
+                        pages.Last().magFilter = (TextureFilter)filter;
+                        pages.Last().minFilter = (TextureFilter)filter;
+                    }
+                    // TODO 解析region
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("指定的文件未找到。");
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("读取文件时发生错误：" + ex.Message);
+            }
+
             return new Atlas(pages, regions);
+        }
+
+        static T? FindEnumByName<T>(string input) where T : struct, Enum
+        {
+            Type enumType = typeof(T);
+            foreach (T value in Enum.GetValues(enumType))
+            {
+                string enumName = Enum.GetName(enumType, value);
+                if (input.Contains(enumName))
+                {
+                    return value;
+                }
+            }
+            return null;
         }
 
 
