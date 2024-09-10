@@ -76,18 +76,59 @@ namespace BinToJson
                         pages.Add(new AtlasPage());
                         pages.Last().name = line;
                     }
-                    if (line.StartsWith("format:"))
+                    else if (line.StartsWith("size:"))
+                    {
+                        pages.Last().width = int.Parse(line.Split(':')[1].Split(',')[0].Trim());
+                        pages.Last().height = int.Parse(line.Split(':')[1].Split(',')[1].Trim());
+                    }
+                    else if (line.StartsWith("format:"))
                     {
                         Format? format = FindEnumByName<Format>(line);
                         pages.Last().format = (Format)format;
                     }
-                    if (line.StartsWith("filter:"))
+                    else if (line.StartsWith("filter:"))
                     {
                         TextureFilter? filter = FindEnumByName<TextureFilter>(line);
                         pages.Last().magFilter = (TextureFilter)filter;
                         pages.Last().minFilter = (TextureFilter)filter;
                     }
                     // TODO 解析region
+                    else if (Regex.Match(line, @"^[^:]+$").Success)
+                    {
+                        regions.Add(new AtlasRegion());
+                        regions.Last().name = line;
+                        regions.Last().page = pages.Last();
+                    }
+                    else if (line.StartsWith("  rotater:"))
+                    {
+                        bool rotate = line.Split(':')[1].Contains("true");
+                        regions.Last().rotate = rotate;
+                    }
+                    else if (line.StartsWith("  xy:"))
+                    {
+                        regions.Last().x = int.Parse(line.Split(':')[1].Split(',')[0].Trim());
+                        regions.Last().y = int.Parse(line.Split(':')[1].Split(',')[1].Trim());
+                    }
+                    else if (line.StartsWith("  size:"))
+                    {
+                        regions.Last().width = int.Parse(line.Split(':')[1].Split(',')[0].Trim());
+                        regions.Last().height = int.Parse(line.Split(':')[1].Split(',')[1].Trim());
+                    }
+                    else if (line.StartsWith("  orig:"))
+                    {
+                        regions.Last().originalWidth = int.Parse(line.Split(':')[1].Split(',')[0].Trim());
+                        regions.Last().originalHeight = int.Parse(line.Split(':')[1].Split(',')[1].Trim());
+                    }
+                    else if (line.StartsWith("  offset:"))
+                    {
+                        regions.Last().offsetX = float.Parse(line.Split(':')[1].Split(',')[0].Trim());
+                        regions.Last().offsetY = float.Parse(line.Split(':')[1].Split(',')[1].Trim());
+                    }
+                    else if (line.StartsWith("  index:"))
+                    {
+                        regions.Last().index = int.Parse(line.Split(':')[1].Trim());
+                    }
+
 
                 }
             }
