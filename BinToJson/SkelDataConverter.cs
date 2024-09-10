@@ -42,8 +42,9 @@ namespace BinToJson
                 bm["scaleY"] = data.ScaleY;
                 bm["shearX"] = data.ShearX;
                 bm["shearY"] = data.ShearY;
-                bm["inheritRotation"] = data.InheritRotation;
-                bm["inheritScale"] = data.InheritScale;
+                // TODO 属性修改
+                //bm["inheritRotation"] = data.InheritRotation;
+                //bm["inheritScale"] = data.InheritScale;
 
                 bn.Add(bm);
             }
@@ -398,25 +399,26 @@ namespace BinToJson
                         var att = dt.Attachment;
 
                         sd = skeletonData.Slots.Items[dt.SlotIndex];
-                        string skinName = dt.skin.Name;
-                        count = 0;
-                        if (!deform.ContainsKey(skinName))
-                            deform[skinName] = new Dictionary<string, Dictionary<string, List<object>>>();
-                        if (!deform[skinName].ContainsKey(sd.Name))
-                            deform[skinName][sd.Name] = new Dictionary<string, List<object>>();
+                        // TODO 属性修改
+                        //string skinName = dt.skin.Name;
+                        //count = 0;
+                        //if (!deform.ContainsKey(skinName))
+                        //    deform[skinName] = new Dictionary<string, Dictionary<string, List<object>>>();
+                        //if (!deform[skinName].ContainsKey(sd.Name))
+                        //    deform[skinName][sd.Name] = new Dictionary<string, List<object>>();
                         string attName = att.Name;
                         if (attName.Contains('/'))
                             attName = attName.Substring(attName.LastIndexOf('/') + 1);
                         attName = attName.Replace('-',' ');
-                        deform[skinName][sd.Name][attName] = applyTimeline(dt.Frames, (f, d) => {
-                            d["time"] = f.pop();
-                            d["offset"] = dt.offsets[count];
-                            var verts = dt.originalVerts[count];
-                            if (verts != null)
-                                d["vertices"] = dt.originalVerts[count];
-                            setCurve(d, dt, count);
-                            count++;
-                        });
+                        //deform[skinName][sd.Name][attName] = applyTimeline(dt.Frames, (f, d) => {
+                        //    d["time"] = f.pop();
+                        //    d["offset"] = dt.offsets[count];
+                        //    var verts = dt.originalVerts[count];
+                        //    if (verts != null)
+                        //        d["vertices"] = dt.originalVerts[count];
+                        //    setCurve(d, dt, count);
+                        //    count++;
+                        //});
 
 
                         break;
@@ -427,16 +429,17 @@ namespace BinToJson
                             Dictionary<string, object> order = new Dictionary<string, object>();
                             //each frame has a list of offset objects
                             List<object> list = new List<object>();
-                            for (int k = 0; k < dot.offsetSet[i].Length; k++) {
-                                int offset = dot.offsetSet[i][k];
-                                if (offset == 0)
-                                    continue;
-                                Dictionary<string, object> temp = new Dictionary<string, object>();
-                                sd = skeletonData.Slots.Items[k];
-                                temp["slot"] = sd.Name;
-                                temp["offset"] = offset;
-                                list.Add(temp);
-                            }
+                            // TODO 属性修改
+                            //for (int k = 0; k < dot.offsetSet[i].Length; k++) {
+                            //    int offset = dot.offsetSet[i][k];
+                            //    if (offset == 0)
+                            //        continue;
+                            //    Dictionary<string, object> temp = new Dictionary<string, object>();
+                            //    sd = skeletonData.Slots.Items[k];
+                            //    temp["slot"] = sd.Name;
+                            //    temp["offset"] = offset;
+                            //    list.Add(temp);
+                            //}
                             order["time"] = dot.Frames[i];
                             order["offsets"] = list;
                             drawOrder.Add(order);
@@ -470,9 +473,10 @@ namespace BinToJson
             return anim;
         }
         private static void setCurve(Dictionary<string, object> map, CurveTimeline ct, int index) {
-            var curve = ct.getCurve(index);
-            if (curve == null) //no curve this frame
-                return;
+            // TODO 属性修改
+            var curve = ct.GetCurveType(index);
+            //if (curve == null) //no curve this frame
+            //    return;
             map["curve"] = curve;
         }
         private static List<Object> applyTimeline(float[] frames, Action<MyNumerator<float>, Dictionary<string, object>> action) {
