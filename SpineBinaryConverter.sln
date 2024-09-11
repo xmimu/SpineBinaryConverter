@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-csharp", "spine-csharp.csproj", "{94144E22-2431-4A8F-AC04-DEC22F7EDD8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-csharp", "spine-csharp\spine-csharp.csproj", "{94144E22-2431-4A8F-AC04-DEC22F7EDD8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinToJson", "..\BinToJson\BinToJson.csproj", "{81612927-658C-4DAD-BF1C-06C5B274EFB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinToJson", "BinToJson\BinToJson.csproj", "{81612927-658C-4DAD-BF1C-06C5B274EFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

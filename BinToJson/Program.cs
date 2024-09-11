@@ -41,7 +41,8 @@ namespace BinToJson
             Dictionary<string,object> jsonFile = SkelDataConverter.FromSkeletonData(skeletonData);
 
             //convert object to json string for storing
-            JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();           
+            JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+            jsonSerializer.MaxJsonLength = Int32.MaxValue;
             string json = jsonSerializer.Serialize(jsonFile);
 
 
@@ -62,7 +63,6 @@ namespace BinToJson
         {
             List<AtlasPage> pages = new List<AtlasPage>();
             List<AtlasRegion> regions = new List<AtlasRegion>();
-            // TODO 解析atlas文件
             try
             {
                 string[] lines = File.ReadAllLines(atlasFile);
@@ -92,7 +92,6 @@ namespace BinToJson
                         pages.Last().magFilter = (TextureFilter)filter;
                         pages.Last().minFilter = (TextureFilter)filter;
                     }
-                    // TODO 解析region
                     else if (Regex.Match(line, @"^[^:]+$").Success)
                     {
                         regions.Add(new AtlasRegion());

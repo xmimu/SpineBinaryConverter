@@ -294,6 +294,16 @@ namespace Spine {
 			float y = curves[i - 1];
 			return y + (1 - y) * (percent - x) / (1 - x); // Last point is 1,1.
 		}
+
+		public float GetCurve (int frameIndex)
+		{
+            int i = frameIndex * BEZIER_SIZE;
+			if (i < curves.Length)
+			{
+				return curves[i];
+			}
+			return 0;
+        }
 	}
 
 	/// <summary>Changes a bone's local <see cref="Bone.Rotation"/>.</summary>
